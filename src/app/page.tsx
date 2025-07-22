@@ -7,13 +7,27 @@ import WhoToFollow from '@/components/WhoToFllow';
 import { currentUser } from '@clerk/nextjs/server';
 
 export default async function Home() {
+    let user, posts, dbUserId: string | null;
+
     try {
-        const user = await currentUser();
-        const posts = await getPosts();
-        const dbUserId = await getDbUserId();
+    user = await currentUser();
+    } catch (error) {
+    console.error('🚀🚀🚀Lỗi khi lấy thông tin user:', error);
+    // Xử lý lỗi cho currentUser
     }
-    catch(error) {
-        console.log('🚀🚀🚀Page error', error)
+
+    try {
+    posts = await getPosts();
+    } catch (error) {
+    console.error('🚀🚀🚀Lỗi khi lấy posts:', error);
+    // Xử lý lỗi cho getPosts
+    }
+
+    try {
+    dbUserId = await getDbUserId();
+    } catch (error) {
+    console.error('🚀🚀🚀Lỗi khi lấy DB user ID:', error);
+    // Xử lý lỗi cho getDbUserId
     }
 
     return (
